@@ -21,7 +21,21 @@ public class Main {
 
 			String request = sc.next();
 
-			if (request.equals("/post/article")) {
+			if (request.equals("/get/article")) {
+
+				if (articleList.size() == 0) {
+					System.out.println("게시글이 존재하지 않습니다.");
+				} else {
+					System.out.println("==== 게시글 리스트 ====");
+					for (int i = 0; i < articleList.size(); i++) {
+						System.out.println("제목 : " + articleList.get(i).get("title"));
+						System.out.println("내용 : " + articleList.get(i).get("body"));
+						System.out.println();
+					}
+				}
+			}
+
+			else if (request.equals("/post/article")) {
 
 				sc.nextLine(); // 버퍼 비우기
 
@@ -49,6 +63,7 @@ public class Main {
 				System.out.println("/get/help - 도움말 출력");
 
 				System.out.println("/post/article - 게시글 작성");
+				System.out.println("/get/article - 게시글 리스트 출력");
 
 			} else if (request.equals("/exit")) {
 				System.out.println("프로그램 종료");
