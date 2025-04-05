@@ -11,8 +11,13 @@ public class Main {
 
 		while (true) {
 			System.out.print("명령어 : ");
-			
+
 			String request = sc.next();
+
+			if (request.equals("/exit")) {
+				System.out.println("프로그램 종료");
+				break;
+			}
 		}
 	}
 }
