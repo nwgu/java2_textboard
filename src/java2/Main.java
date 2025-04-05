@@ -14,7 +14,13 @@ public class Main {
 
 			String request = sc.next();
 
-			if (request.equals("/exit")) {
+			if (request.equals("/get/help")) {
+
+				System.out.println("=== 도움말 ===");
+				System.out.println("/exit - 프로그램 종료");
+				System.out.println("/get/help - 도움말 출력");
+
+			} else if (request.equals("/exit")) {
 				System.out.println("프로그램 종료");
 				break;
 			}
