@@ -1,5 +1,7 @@
 package java2;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -24,6 +26,12 @@ public class Main {
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
 
+				// 하나의 게시글 Map
+				Map<String, String> article = new HashMap<String, String>();
+				article.put("title", title);
+				article.put("body", body);
+				
+				
 			}
 
 			else if (request.equals("/get/help")) {
