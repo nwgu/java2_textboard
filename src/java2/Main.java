@@ -1,6 +1,8 @@
 package java2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -8,6 +10,9 @@ public class Main {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
+
+		// 게시글 목록 저장소
+		List<Map<String, String>> articleList = new ArrayList<>();
 
 		System.out.println("텍스트 게시판 시작");
 
@@ -30,8 +35,11 @@ public class Main {
 				Map<String, String> article = new HashMap<String, String>();
 				article.put("title", title);
 				article.put("body", body);
-				
-				
+
+				// 게시글 목록에 게시글 저장
+				articleList.add(article);
+
+				System.out.println("게시글이 작성되었습니다.");
 			}
 
 			else if (request.equals("/get/help")) {
