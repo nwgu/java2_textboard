@@ -28,7 +28,7 @@ public class Main {
 					System.out.println("게시글이 존재하지 않습니다.");
 				} else {
 					System.out.println("==== 게시글 리스트 ====");
-					for (int i = 0; i < articleList.size(); i++) {
+					for (int i = articleList.size() - 1; i >= 0; i--) {
 						System.out.println("번호 : " + articleList.get(i).getArticleId());
 						System.out.println("제목 : " + articleList.get(i).getTitle());
 						System.out.println("내용 : " + articleList.get(i).getBody());
