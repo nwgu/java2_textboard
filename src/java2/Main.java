@@ -22,7 +22,32 @@ public class Main {
 
 			String request = sc.next();
 
-			if (request.equals("/get/article")) {
+			// equals 로 하면 동적으로 변하는 게시글 번호값을 가져올 수 없음.
+			// 그래서 contains 아니면 startsWith 메서드를 써야 함.
+			if (request.contains("/get/article?articleId=")) {
+				// = 를 기준으로 쪼개기.
+				// 조각이 생기기 때문에 [배열]이 리턴되는 것
+				// ["/get/article?articleId", "특정정수값"]
+				String[] params = request.split("=");
+
+				// params[1] 에는 특정 정수값이 들어있는데 현재는 문자열
+				// 그래서 Integer.parseInt 메서드로 정수화 진행
+				// 곧 비교해야 할 articleList 안에 들어있는 게시글 번호는 정수이기때문에..
+				int articleId = Integer.parseInt(params[1]); // ----> 사용자가 입력한 값
+
+				for (int i = 0; i < articleList.size(); i++) {
+					// 이미 게시글에 등록된 번호랑 사용자가 입력한 값이랑 비교
+					if (articleList.get(i).getArticleId() == articleId) {
+						// 여기를 통과하면 값을 찾은 것임.
+						System.out.println("====" + articleList.get(i).getArticleId() + "번 게시글 ====");
+						System.out.println("제목 : " + articleList.get(i).getTitle());
+						System.out.println("내용 : " + articleList.get(i).getBody());
+					}
+				}
+
+			}
+
+			else if (request.equals("/get/article")) {
 
 				if (articleList.size() == 0) {
 					System.out.println("게시글이 존재하지 않습니다.");
@@ -47,7 +72,7 @@ public class Main {
 				System.out.print("내용 : ");
 				String body = sc.nextLine();
 
-				// 하나의 게시글 Map
+				// 하나의 게시글 클래스
 				Article article = new Article();
 				articleLastId++;
 				article.setArticleId(articleLastId);
