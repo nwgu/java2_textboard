@@ -1,10 +1,10 @@
 package java2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
+
+import vo.Article;
 
 public class Main {
 	public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 
 		// 게시글 목록 저장소
-		List<Map<String, Object>> articleList = new ArrayList<>();
+		List<Article> articleList = new ArrayList<Article>();
 		int articleLastId = 0;
 
 		System.out.println("텍스트 게시판 시작");
@@ -29,9 +29,9 @@ public class Main {
 				} else {
 					System.out.println("==== 게시글 리스트 ====");
 					for (int i = 0; i < articleList.size(); i++) {
-						System.out.println("번호 : " + articleList.get(i).get("articleId"));
-						System.out.println("제목 : " + articleList.get(i).get("title"));
-						System.out.println("내용 : " + articleList.get(i).get("body"));
+						System.out.println("번호 : " + articleList.get(i).getArticleId());
+						System.out.println("제목 : " + articleList.get(i).getTitle());
+						System.out.println("내용 : " + articleList.get(i).getBody());
 						System.out.println();
 					}
 				}
@@ -48,11 +48,11 @@ public class Main {
 				String body = sc.nextLine();
 
 				// 하나의 게시글 Map
-				Map<String, Object> article = new HashMap<String, Object>();
+				Article article = new Article();
 				articleLastId++;
-				article.put("articleId", articleLastId);
-				article.put("title", title);
-				article.put("body", body);
+				article.setArticleId(articleLastId);
+				article.setTitle(title);
+				article.setBody(body);
 
 				// 게시글 목록에 게시글 저장
 				articleList.add(article);
