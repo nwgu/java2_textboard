@@ -4,6 +4,7 @@ package vo; // vo --> Value Object 의 약자 (데이터를 담아 전달하는 
 public class Article {
 
 	private int articleId;
+	private String regDate;
 	private String title;
 	private String body;
 
@@ -13,6 +14,14 @@ public class Article {
 
 	public void setArticleId(int articleId) {
 		this.articleId = articleId;
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 
 	public String getTitle() {

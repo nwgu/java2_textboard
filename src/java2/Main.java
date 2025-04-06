@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import util.CurrentDateTime;
 import vo.Article;
 
 public class Main {
@@ -40,6 +41,7 @@ public class Main {
 					if (articleList.get(i).getArticleId() == articleId) {
 						// 여기를 통과하면 값을 찾은 것임.
 						System.out.println("====" + articleList.get(i).getArticleId() + "번 게시글 ====");
+						System.out.println("작성일 : " + articleList.get(i).getRegDate());
 						System.out.println("제목 : " + articleList.get(i).getTitle());
 						System.out.println("내용 : " + articleList.get(i).getBody());
 					}
@@ -55,6 +57,7 @@ public class Main {
 					System.out.println("==== 게시글 리스트 ====");
 					for (int i = articleList.size() - 1; i >= 0; i--) {
 						System.out.println("번호 : " + articleList.get(i).getArticleId());
+						System.out.println("작성일 : " + articleList.get(i).getRegDate());
 						System.out.println("제목 : " + articleList.get(i).getTitle());
 						System.out.println("내용 : " + articleList.get(i).getBody());
 						System.out.println();
@@ -76,6 +79,8 @@ public class Main {
 				Article article = new Article();
 				articleLastId++;
 				article.setArticleId(articleLastId);
+				// 현재시간 객체안의 메서드 호출 (static 이라서 이렇게 가능)
+				article.setRegDate(CurrentDateTime.now());
 				article.setTitle(title);
 				article.setBody(body);
 
