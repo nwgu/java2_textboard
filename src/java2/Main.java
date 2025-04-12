@@ -80,6 +80,16 @@ public class Main {
 
 			}
 
+			else if (request.startsWith("/post/removeAll/article")) {
+				if (articleList.size() == 0) {
+					System.out.println("게시글이 존재하지 않습니다.");
+					continue;
+				}
+
+				articleList.clear();
+				System.out.println("모든 게시글이 삭제되었습니다.");
+			}
+
 			else if (request.startsWith("/post/remove/article?articleId=")) {
 
 				/* 유효성 검사 및 예외 처리 시작 */
