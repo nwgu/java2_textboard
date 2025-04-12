@@ -130,12 +130,34 @@ public class Main {
 				System.out.println("/post/article - 게시글 작성");
 				System.out.println("/get/article - 게시글 리스트 출력");
 
-			} else if (request.equals("/exit")) {
+			}
+
+			else if (request.equals("/exit")) {
 				System.out.println("프로그램 종료");
 				sc.close();
 				break;
 
-			} else {
+			}
+
+			else if (request.equals(".")) {
+				for (int i = 1; i <= 10; i++) {
+					// 하나의 게시글 클래스
+					Article article = new Article();
+					articleLastId++;
+					article.setArticleId(articleLastId);
+					// 현재시간 객체안의 메서드 호출 (static 이라서 이렇게 가능)
+					article.setRegDate(CurrentDateTime.now());
+					article.setTitle("제목" + i);
+					article.setBody("내용" + i);
+
+					// 게시글 목록에 게시글 저장
+					articleList.add(article);
+				}
+
+				System.out.println("테스트 게시글이 추가되었습니다.");
+			}
+
+			else {
 				System.out.println("존재하지 않는 명령어 입니다.");
 
 			}
