@@ -25,7 +25,7 @@ public class Main {
 
 			// equals 로 하면 동적으로 변하는 게시글 번호값을 가져올 수 없음.
 			// 그래서 contains 아니면 startsWith 메서드를 써야 함.
-			if (request.contains("/get/article?articleId=")) {
+			if (request.startsWith("/get/article?articleId=")) {
 				// = 를 기준으로 쪼개기.
 				// 조각이 생기기 때문에 [배열]이 리턴되는 것
 				// ["/get/article?articleId", "특정정수값"]
@@ -76,6 +76,48 @@ public class Main {
 					System.out.println("작성일 : " + article.getRegDate());
 					System.out.println("제목 : " + article.getTitle());
 					System.out.println("내용 : " + article.getBody());
+				}
+
+			}
+
+			else if (request.startsWith("/post/remove/article?articleId=")) {
+
+				/* 유효성 검사 및 예외 처리 시작 */
+				String[] params = request.split("=");
+
+				if (params.length < 2) {
+					System.out.println("게시글 번호를 입력해주세요.");
+					continue;
+				}
+
+				int articleId = 0;
+
+				try {
+					articleId = Integer.parseInt(params[1]); // ----> 사용자가 입력한 값
+
+				} catch (NumberFormatException e) {
+					System.out.println("정수를 입력해주세요.");
+					continue;
+				}
+
+				/* 유효성 검사 및 예외 처리 끝 */
+
+				/* 게시글이 삭제 되었는지 여부를 알기 위한 임시 변수 */
+				boolean isRemoveArticle = false;
+
+				for (int i = 0; i < articleList.size(); i++) {
+					if (articleList.get(i).getArticleId() == articleId) {
+						articleList.remove(i); // 현재 찾은 게시글의 인덱스 삭제 즉, 찾은 게시글 게시글 삭제 처리
+						isRemoveArticle = true;
+						break; // 찾았다면 더 지체하지말고 for 문 브레이크.
+					}
+				}
+
+				if (isRemoveArticle) {
+					System.out.println(articleId + "번 게시글을 삭제하였습니다.");
+
+				} else {
+					System.out.println(articleId + "번 게시글은 존재하지 않습니다.");
 				}
 
 			}
