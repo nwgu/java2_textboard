@@ -36,15 +36,29 @@ public class Main {
 				// 곧 비교해야 할 articleList 안에 들어있는 게시글 번호는 정수이기때문에..
 				int articleId = Integer.parseInt(params[1]); // ----> 사용자가 입력한 값
 
+				// 찾은 게시글 하나를 담을 임시 Article 클래스
+				Article article = null;
+
 				for (int i = 0; i < articleList.size(); i++) {
 					// 이미 게시글에 등록된 번호랑 사용자가 입력한 값이랑 비교
 					if (articleList.get(i).getArticleId() == articleId) {
 						// 여기를 통과하면 값을 찾은 것임.
-						System.out.println("====" + articleList.get(i).getArticleId() + "번 게시글 ====");
-						System.out.println("작성일 : " + articleList.get(i).getRegDate());
-						System.out.println("제목 : " + articleList.get(i).getTitle());
-						System.out.println("내용 : " + articleList.get(i).getBody());
+						// 찾은 articleList 안에 있는 article 객체를
+						// 위에 임시 Article 클래스 변수 안에다가 할당
+						article = articleList.get(i);
 					}
+				}
+
+				// for 문의 끝나고 최종적으로 article 안에 값이 null 이라면,
+				// 입력했던 번호의 게시글을 찾지 못한 것.
+				if (article == null) {
+					System.out.println(articleId + "번 게시글은 존재하지 않습니다.");
+
+				} else {
+					System.out.println("====" + article.getArticleId() + "번 게시글 ====");
+					System.out.println("작성일 : " + article.getRegDate());
+					System.out.println("제목 : " + article.getTitle());
+					System.out.println("내용 : " + article.getBody());
 				}
 
 			}
