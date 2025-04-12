@@ -31,6 +31,14 @@ public class Main {
 				// ["/get/article?articleId", "특정정수값"]
 				String[] params = request.split("=");
 
+				// split 을 통한 배열의 길이 값이 2보다 작다면,
+				// 사용자가 값을 입력하지 않은 것..
+				// = 를 기준으로 잘랐기때문에 값을 입력했다면 무조건 배열의 길이 값은 2개 이상임.
+				if (params.length < 2) {
+					System.out.println("게시글 번호를 입력해주세요.");
+					continue;
+				}
+
 				// params[1] 에는 특정 정수값이 들어있는데 현재는 문자열
 				// 그래서 Integer.parseInt 메서드로 정수화 진행
 				// 곧 비교해야 할 articleList 안에 들어있는 게시글 번호는 정수이기때문에..
