@@ -23,9 +23,47 @@ public class Main {
 
 			String request = sc.next();
 
+			if (request.startsWith("/get/search/article?keyword=")) {
+
+				String[] params = request.split("=");
+
+				if (params.length < 2) {
+					System.out.println("키워드를 입력해주세요.");
+					continue;
+				}
+
+				// 사용자가 입력한 키워드 값 변수 초기화
+				// 이제 이 값으로 게시글 안의 제목 값과 부합하다면 전부 출력
+				String keyword = params[1];
+
+				// 키워드로 찾아진 모든 게시글을 담기위한 임시 리스트
+				List<Article> findByArticleList = new ArrayList<Article>();
+
+				for (int i = 0; i < articleList.size(); i++) {
+					// 포함된 찾아야 검색이 되기 때문에 contains 메서드 사용
+					if (articleList.get(i).getTitle().contains(keyword)) {
+						findByArticleList.add(articleList.get(i));
+					}
+				}
+
+				// 길이 값이 0 이라면 찾은 키워드가 없다는 뜻
+				if (findByArticleList.size() == 0) {
+					System.out.println(keyword + " 로 검색된 게시글이 없습니다.");
+				} else {
+					System.out.println(keyword + " 로 검색된 게시글을 출력합니다.");
+
+					for (int i = 0; i < findByArticleList.size(); i++) {
+						System.out.println("번호 : " + findByArticleList.get(i).getArticleId());
+						System.out.println("제목 : " + findByArticleList.get(i).getTitle());
+						System.out.println("내용 : " + findByArticleList.get(i).getBody());
+						System.out.println();
+					}
+				}
+			}
+
 			// equals 로 하면 동적으로 변하는 게시글 번호값을 가져올 수 없음.
 			// 그래서 contains 아니면 startsWith 메서드를 써야 함.
-			if (request.startsWith("/get/article?articleId=")) {
+			else if (request.startsWith("/get/article?articleId=")) {
 				// = 를 기준으로 쪼개기.
 				// 조각이 생기기 때문에 [배열]이 리턴되는 것
 				// ["/get/article?articleId", "특정정수값"]
