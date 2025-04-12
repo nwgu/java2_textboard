@@ -39,10 +39,19 @@ public class Main {
 					continue;
 				}
 
-				// params[1] 에는 특정 정수값이 들어있는데 현재는 문자열
-				// 그래서 Integer.parseInt 메서드로 정수화 진행
-				// 곧 비교해야 할 articleList 안에 들어있는 게시글 번호는 정수이기때문에..
-				int articleId = Integer.parseInt(params[1]); // ----> 사용자가 입력한 값
+				int articleId = 0; // try 안으로 변수가 들어가기 때문에 위에 더 넓은 코드 블록에서 활용하기 위한 변수 선언
+
+				try { // ---> 정수화를 해야 하는데 사용자자가 문자정수열이 아닌 일반 문자를 입력했을때를 위한 처리
+
+					// params[1] 에는 특정 정수값이 들어있는데 현재는 문자열
+					// 그래서 Integer.parseInt 메서드로 정수화 진행
+					// 곧 비교해야 할 articleList 안에 들어있는 게시글 번호는 정수이기때문에..
+					articleId = Integer.parseInt(params[1]); // ----> 사용자가 입력한 값
+
+				} catch (NumberFormatException e) { // 어차피 정수가 아니면 parseInt 메서드에서 에러가 뜨는데 해당 에러 Exception 명시
+					System.out.println("정수를 입력해주세요.");
+					continue;
+				}
 
 				// 찾은 게시글 하나를 담을 임시 Article 클래스
 				Article article = null;
