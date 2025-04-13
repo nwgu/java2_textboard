@@ -1,6 +1,7 @@
 package java2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -170,20 +171,43 @@ public class Main {
 
 			}
 
-			else if (request.equals("/get/article")) {
+			else if (request.startsWith("/get/article?sort=")) {
+				String[] params = request.split("=");
 
-				if (articleList.size() == 0) {
-					System.out.println("게시글이 존재하지 않습니다.");
-				} else {
-					System.out.println("==== 게시글 리스트 ====");
-					for (int i = articleList.size() - 1; i >= 0; i--) {
-						System.out.println("번호 : " + articleList.get(i).getArticleId());
-						System.out.println("작성일 : " + articleList.get(i).getRegDate());
-						System.out.println("제목 : " + articleList.get(i).getTitle());
-						System.out.println("내용 : " + articleList.get(i).getBody());
+				if (params.length < 2) {
+					System.out.println("게시글 번호를 입력해주세요.");
+					continue;
+				}
+
+				String sort = params[1]; // 이 값은 desc, asc 혹은 의미 없는 값이 리턴 됨.
+
+				if (sort.equals("desc")) { // 내림차순 (최신)
+
+					Collections.reverse(articleList); // 컬렉션 관련 유용한 유틸에서 reverse 메서드 사용
+
+					for (Article article : articleList) {
+						System.out.println("번호 : " + article.getArticleId());
+						System.out.println("제목 : " + article.getTitle());
+						System.out.println("내용 : " + article.getBody());
 						System.out.println();
 					}
+
+					Collections.reverse(articleList); // 객체 값들은 계속 공유 되고 있기 때문에 거꾸로 돌렸다면, 다시 되돌려주는 작업 적용
+
+				} else if (sort.equals("asc")) { // 오름차순 (과거)
+
+					for (Article article : articleList) {
+						System.out.println("번호 : " + article.getArticleId());
+						System.out.println("제목 : " + article.getTitle());
+						System.out.println("내용 : " + article.getBody());
+						System.out.println();
+					}
+
+				} else {
+					System.out.println("유효한 정렬 값을 입력해주세요.");
+
 				}
+
 			}
 
 			else if (request.equals("/post/article")) {
@@ -216,9 +240,12 @@ public class Main {
 				System.out.println("=== 도움말 ===");
 				System.out.println("/exit - 프로그램 종료");
 				System.out.println("/get/help - 도움말 출력");
+				System.out.println("/get/article?articleId= - 게시글 상세 출력");
 
-				System.out.println("/post/article - 게시글 작성");
-				System.out.println("/get/article - 게시글 리스트 출력");
+				System.out.println("/post/article -> 게시글 작성");
+				System.out.println("/post/remove/article?articleId= -> 게시글 삭제");
+				System.out.println("/post/removeAll/article -> 게시글 전부 삭제");
+				System.out.println("/get/article?sort={sort} -> 게시글 출력(desc, asc)");
 
 			}
 
