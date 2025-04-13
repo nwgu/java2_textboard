@@ -24,7 +24,58 @@ public class Main {
 
 			String request = sc.next();
 
-			if (request.startsWith("/get/search/article?keyword=")) {
+			if (request.startsWith("/post/update/article?articleId=")) { // 게시글 수정
+
+				/* 유효성 검사 및 예외 처리 시작 */
+				String[] params = request.split("=");
+
+				if (params.length < 2) {
+					System.out.println("게시글 번호를 입력해주세요.");
+					continue;
+				}
+
+				int articleId = 0;
+
+				try {
+					articleId = Integer.parseInt(params[1]); // ----> 사용자가 입력한 값
+
+				} catch (NumberFormatException e) {
+					System.out.println("정수를 입력해주세요.");
+					continue;
+				}
+
+				/* 유효성 검사 및 예외 처리 끝 */
+
+				Article findByArticle = null; // 게시글 찾았을 때 담을 임시 Article
+
+				for (Article article : articleList) {
+					if (article.getArticleId() == articleId) {
+						findByArticle = article; // 게시글을 찾았다면 Article 을 통째로 임시 Article 에 넣어준다.
+					}
+				}
+
+				// 여기서 최종적으로 findByArticle 의 값을 체크
+				if (findByArticle == null) {
+					System.out.println(articleId + "번 게시글은 존재하지 않습니다.");
+
+				} else {
+
+					sc.nextLine();
+
+					System.out.print("수정할 게시글 제목 : ");
+					String newTitle = sc.nextLine();
+					findByArticle.setTitle(newTitle); // 만들어 두었던 setter 메서드로 값을 수정 (새로 세팅)
+
+					System.out.print("수정할 게시글 내용 : ");
+					String newBody = sc.nextLine();
+					findByArticle.setBody(newBody);
+
+					System.out.println(articleId + "번 게시글 수정이 완료되었습니다.");
+				}
+
+			}
+
+			else if (request.startsWith("/get/search/article?keyword=")) {
 
 				String[] params = request.split("=");
 
@@ -175,7 +226,7 @@ public class Main {
 				String[] params = request.split("=");
 
 				if (params.length < 2) {
-					System.out.println("게시글 번호를 입력해주세요.");
+					System.out.println("정렬 값을 입력해주세요. (desc, asc)");
 					continue;
 				}
 
@@ -204,8 +255,7 @@ public class Main {
 					}
 
 				} else {
-					System.out.println("유효한 정렬 값을 입력해주세요.");
-
+					System.out.println("유효한 정렬 값을 입력해주세요. (desc, asc)");
 				}
 
 			}
@@ -243,6 +293,7 @@ public class Main {
 				System.out.println("/get/article?articleId= - 게시글 상세 출력");
 
 				System.out.println("/post/article -> 게시글 작성");
+				System.out.println("/post/update/article?articleId= -> 게시글 수정");
 				System.out.println("/post/remove/article?articleId= -> 게시글 삭제");
 				System.out.println("/post/removeAll/article -> 게시글 전부 삭제");
 				System.out.println("/get/article?sort={sort} -> 게시글 출력(desc, asc)");
