@@ -2,7 +2,9 @@ package java2;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import util.CurrentDateTime;
@@ -75,42 +77,115 @@ public class Main {
 
 			}
 
-			else if (request.startsWith("/get/search/article?keyword=")) {
+			else if (request.startsWith("/get/search/article")) {
+				// \\이스케이프 를 쓰는 이유는 자바에서 물음표(?) 자체를 문자로 인식하지 않기 때문에 문자 자체를 알려주기 위함.
+				String[] path = request.split("\\?");
+				// 이렇게 자르게 되면 path 에는 [ "/get/search/article", "title=title&body=body" ] 이런식으로
+				// 들어있게 된다.
+				// 해당 기능은 title 파라메터 혹은 body 파라메터 둘 다 필요로 하기 때문에 하나씩 쪼개는 작업이 필요함.
+				// 우선 크게 & 를 잘라야 됨. request.split("&");
+				// String params = request.split("&"); --> params 에는 & 를 기준으로 잘랐기 때문에 1개가
+				// 들어있을수도, 2개가 들어있을수도있음.
+				// 동적으로 계속 변할수도 있기 때문에 for 문을 쓰면 됨.
 
-				String[] params = request.split("=");
+				// 파라메터 저장 Map
+				Map<String, String> paramsMap = new HashMap<>();
 
-				if (params.length < 2) {
-					System.out.println("키워드를 입력해주세요.");
-					continue;
+				for (String params : path[1].split("&")) {
+					// 마지막으로 한 번 더 split 을 해줘야 함
+					// params 에는 title=title 혹은 body=body 의 단순 문자열 형태가 들어가 있는데
+					// 추후 값을 꺼내고 관리하기 위해서 이 문자열을 Map 객체 안에다가 넣어줘야 됨 .
+					String[] keyValues = params.split("=");
+
+					// --> 이렇게 하면 추후 어떤 파라메터가 들어오든지 전부 다 쓰기 편한 Map 형태로 만들어주기 때문에 다른 곳에다가 응용해도 됨
+					paramsMap.put(keyValues[0], keyValues[1]);
 				}
 
-				// 사용자가 입력한 키워드 값 변수 초기화
-				// 이제 이 값으로 게시글 안의 제목 값과 부합하다면 전부 출력
-				String keyword = params[1];
+				// 여기까지 통과가 됐다면, 현재 paramsMap 안에는 사용자가 쓴 파라메터 값들이 Map 형태로 정렬 되어있다는 뜻.
 
-				// 키워드로 찾아진 모든 게시글을 담기위한 임시 리스트
-				List<Article> findByArticleList = new ArrayList<Article>();
+				// 입력된 값을 새로운 변수 안에다가 넣어준다.
+				// 이걸 하려고 위에서부터 문자열 split 을 진행한 것
+				String title = paramsMap.get("title");
+				String body = paramsMap.get("body");
 
-				for (int i = 0; i < articleList.size(); i++) {
-					// 포함된 찾아야 검색이 되기 때문에 contains 메서드 사용
-					if (articleList.get(i).getTitle().contains(keyword)) {
-						findByArticleList.add(articleList.get(i));
+				// 이제 for 문을 돌면서 해당 값들을 찾아야 함 .
+				// 우선 조건이 3개가 존재한다.
+				// 1. title 과 body 가 둘 다 존재할 때
+				// 2. title 하나만 있을 때
+				// 3. body 하나만 있을 때
+
+				List<Article> findByArticles = new ArrayList<>();
+
+//				버전 1
+				for (Article article : articleList) {
+					if (title != null && body != null) { // title 과 body 가 둘 다 존재할 때
+
+						// title 과 body 가 전부 비교해서 해당 값과 맞는 게시글 찾아서 임시 리스트 변수에 추가
+						if (article.getTitle().contains(title) && article.getBody().contains(body)) {
+							findByArticles.add(article);
+						}
+
+					} else if (title != null) { // title 만 존재할 때
+
+						// title 을 비교해서 해당 값과 맞는 게시글 찾아서 임시 리스트 변수에 추가
+						if (article.getTitle().contains(title)) {
+							findByArticles.add(article);
+						}
+
+					} else if (body != null) { // body 만 존재할 때
+
+						// body 을 비교해서 해당 값과 맞는 게시글 찾아서 임시 리스트 변수에 추가
+						if (article.getBody().contains(body)) {
+							findByArticles.add(article);
+						}
 					}
 				}
+				
+//				버전 2
+//				for (Article article : articleList) {
+//				    boolean titleMatch = (title == null) || article.getTitle().contains(title);
+//				    boolean bodyMatch = (body == null) || article.getBody().contains(body);
+//				    
+//				    // title과 body 둘 다 null이 아닌 경우: 두 조건 모두 만족해야 함
+//				    // title만 null이 아닌 경우: title만 일치하면 됨
+//				    // body만 null이 아닌 경우: body만 일치하면 됨
+//				    if ((title != null && body != null && titleMatch && bodyMatch) ||
+//				        (title != null && body == null && titleMatch) ||
+//				        (title == null && body != null && bodyMatch)) {
+//				        findByArticles.add(article);
+//				    }
+//				}
+				
+//				버전 3 
+//				for (Article article : articleList) {
+//				    // 둘 다 null이면 건너뛰기 (아무 조건도 없는 경우)
+//				    if (title == null && body == null) continue;
+//				    
+//				    // title이 존재하면 title 조건을 만족해야 함
+//				    if (title != null && !article.getTitle().contains(title)) continue;
+//				    
+//				    // body가 존재하면 body 조건을 만족해야 함
+//				    if (body != null && !article.getBody().contains(body)) continue;
+//				    
+//				    // 여기까지 왔다면 모든 조건을 만족
+//				    findByArticles.add(article);
+//				}
+				
+				// 여기서 최종적으로 findByArticles 에 값이 있는지 없는지 체크
+				if (findByArticles.size() == 0) {
+					System.out.println("찾는 게시글이 존재하지 않습니다.");
 
-				// 길이 값이 0 이라면 찾은 키워드가 없다는 뜻
-				if (findByArticleList.size() == 0) {
-					System.out.println(keyword + " 로 검색된 게시글이 없습니다.");
 				} else {
-					System.out.println(keyword + " 로 검색된 게시글을 출력합니다.");
+					System.out.println("==== 검색된 게시글 ====");
 
-					for (int i = 0; i < findByArticleList.size(); i++) {
-						System.out.println("번호 : " + findByArticleList.get(i).getArticleId());
-						System.out.println("제목 : " + findByArticleList.get(i).getTitle());
-						System.out.println("내용 : " + findByArticleList.get(i).getBody());
-						System.out.println();
+					for (Article article : findByArticles) {
+						System.out.println("====" + article.getArticleId() + "번 게시글 ====");
+						System.out.println("작성일 : " + article.getRegDate());
+						System.out.println("제목 : " + article.getTitle());
+						System.out.println("내용 : " + article.getBody());
 					}
 				}
+
 			}
 
 			// equals 로 하면 동적으로 변하는 게시글 번호값을 가져올 수 없음.
