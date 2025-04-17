@@ -36,7 +36,6 @@ public class Main {
 			System.out.print("명령어 : ");
 
 			String request = sc.next();
-
 			/**************** 유저 ****************/
 			if (request.startsWith("/auth/remove/user")) { // 회원 탈퇴
 				if (userSession == null) {
@@ -48,8 +47,17 @@ public class Main {
 				String isConfirmedToDelete = sc.next();
 
 				if (isConfirmedToDelete.equals("yes")) {
+
+					/* 해당 회원이 작성한 게시글 글이 있다면, 전부 작성자를 탈퇴한 사용자로 변경 */
+					for (Article article : articleList) {
+						if (article.getUserId() == userSession.getUserId()) {
+							article.setUserName("탈퇴한 사용자");
+						}
+					}
+
 					userSession.setUserState(false); // 회원 상태 false 세팅 - 탈퇴한 유저
 					userSession = null; // 강제 로그아웃
+
 					System.out.println("수고하세연~");
 				} else {
 					System.out.println("?????");
