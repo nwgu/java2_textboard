@@ -45,6 +45,11 @@ public class Main {
 
 			else if (request.equals("/auth/login")) { // 로그인
 
+				if (userSession != null) {
+					System.out.println("이미 로그인된 상태 입니다.");
+					continue;
+				}
+
 				System.out.print("아이디 : ");
 				String userLoginId = sc.next();
 
