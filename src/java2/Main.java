@@ -37,7 +37,22 @@ public class Main {
 
 			String request = sc.next();
 			/**************** 유저 ****************/
-			if (request.startsWith("/auth/remove/user")) { // 회원 탈퇴
+			if (request.equals("/get/user")) { // 유저 리스트
+
+				if (userList.size() == 0) {
+					System.out.println("회원 리스트가 존재하지 않습니다.");
+					continue;
+				}
+
+				System.out.println("==== 가입된 회원 정보 ====");
+				for (User user : userList) {
+					System.out.println("번호 : " + user.getUserId());
+					System.out.println("아이디 : " + user.getUserLoginId());
+					System.out.println("이름 : " + user.getUserName());
+				}
+			}
+
+			else if (request.equals("/auth/remove/user")) { // 회원 탈퇴
 				if (userSession == null) {
 					System.out.println("로그인이 필요한 기능 입니다.");
 					continue;
