@@ -81,6 +81,21 @@ public class Main {
 				System.out.print("사용할 아이디 : ");
 				String userLoginId = sc.next();
 
+				/* 유저 로그인 아이디 중복 체크 시작 */
+				boolean chkUserLoginId = false; 
+
+				for (User user : userList) {
+					if (user.getUserLoginId().equals(userLoginId)) {
+						chkUserLoginId = true;
+					}
+				}
+
+				if (chkUserLoginId) {
+					System.out.println("이미 가입된 회원 입니다.");
+					continue;
+				}
+				/* 유저 로그인 아이디 중복 체크 끝 */
+
 				System.out.print("사용할 비밀번호 : ");
 				String userLoginPw = sc.next();
 
