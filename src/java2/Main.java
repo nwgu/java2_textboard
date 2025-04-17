@@ -91,9 +91,14 @@ public class Main {
 				if (findByUser == null) {
 					System.out.println("회원정보가 일치하지 않습니다.");
 				} else {
-					// 로그인 완료
-					userSession = findByUser;
-					System.out.println("로그인이 완료 되었습니다. " + findByUser.getUserName() + "님 안녕하세요~!");
+
+					if (findByUser.isUserState()) {
+						// 로그인 완료
+						userSession = findByUser;
+						System.out.println("로그인이 완료 되었습니다. " + findByUser.getUserName() + "님 안녕하세요~!");
+					} else {
+						System.out.println("탈퇴한 회원 입니다.");
+					}
 				}
 
 			}
