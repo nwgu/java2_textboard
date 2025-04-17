@@ -38,7 +38,29 @@ public class Main {
 			String request = sc.next();
 
 			/**************** 유저 ****************/
-			if (request.equals("/auth/logout")) { // 로그아웃
+
+			if (request.startsWith("/post/update/pw/user")) { // 유저 비밀번호 변경
+				if (userSession == null) {
+					System.out.println("로그인이 필요한 기능 입니다.");
+					continue;
+				}
+
+				System.out.print("새로운 비밀번호 : ");
+				String newPw = sc.next();
+				System.out.print("비밀번호 확인 : ");
+				String newPwConfirm = sc.next();
+
+				if (!newPw.equals(newPwConfirm)) {
+					System.out.println("비밀번호가 일치하지 않습니다.");
+
+				} else {
+					userSession.setUserLoginPw(newPw);
+					System.out.println("회원정보가 변경되었습니다. 다시 로그인 해주세요.");
+					userSession = null;
+				}
+			}
+
+			else if (request.equals("/auth/logout")) { // 로그아웃
 				if (userSession != null) {
 					userSession = null;
 					System.out.println("로그아웃 완료");
