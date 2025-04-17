@@ -9,10 +9,15 @@ import java.util.Scanner;
 
 import util.CurrentDateTime;
 import vo.Article;
+import vo.Role;
 import vo.User;
 
 public class Main {
 	public static void main(String[] args) {
+
+		List<Role> roleList = new ArrayList<>(); // 회원 권한 리스트
+		roleList.add(new Role(1, "ADMIN", "시스템 관리자 권한"));
+		roleList.add(new Role(2, "USER", "일반 사용자 권한"));
 
 		Scanner sc = new Scanner(System.in);
 
