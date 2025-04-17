@@ -38,8 +38,25 @@ public class Main {
 			String request = sc.next();
 
 			/**************** 유저 ****************/
+			if (request.startsWith("/auth/remove/user")) { // 회원 탈퇴
+				if (userSession == null) {
+					System.out.println("로그인이 필요한 기능 입니다.");
+					continue;
+				}
 
-			if (request.startsWith("/post/update/pw/user")) { // 유저 비밀번호 변경
+				System.out.print("정말로 탈퇴하실건가요 ? ㅠㅠ : (yes or no)");
+				String isConfirmedToDelete = sc.next();
+
+				if (isConfirmedToDelete.equals("yes")) {
+					userSession.setUserState(false); // 회원 상태 false 세팅 - 탈퇴한 유저
+					userSession = null; // 강제 로그아웃
+					System.out.println("수고하세연~");
+				} else {
+					System.out.println("?????");
+				}
+			}
+
+			else if (request.startsWith("/post/update/pw/user")) { // 유저 비밀번호 변경
 				if (userSession == null) {
 					System.out.println("로그인이 필요한 기능 입니다.");
 					continue;
