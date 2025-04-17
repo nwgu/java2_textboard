@@ -23,6 +23,8 @@ public class Main {
 		// https://nwgu.github.io/java/2025/04/05/java2/#-%EC%84%B8%EC%85%98
 		User userSession = null; // 이게 null 이면 로그아웃 상태
 
+		int userLastId = 0; // 유저 고유 번호도 유니크하며, 1씩 증가되어야 함.
+
 		// 게시글 목록 저장소
 		List<Article> articleList = new ArrayList<Article>();
 
@@ -100,6 +102,8 @@ public class Main {
 
 				User user = new User();
 
+				userLastId++;
+				user.setUserId(userLastId);
 				user.setUserLoginId(userLoginId);
 				user.setUserLoginPw(userLoginPw);
 				user.setUserName(userName);
