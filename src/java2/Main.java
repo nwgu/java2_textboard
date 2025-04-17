@@ -36,7 +36,13 @@ public class Main {
 			String request = sc.next();
 
 			/**************** 유저 ****************/
-			if (request.equals("/auth/login")) { // 로그인
+			if (request.equals("/auth/logout")) { // 로그아웃
+				if (userSession != null) {
+					userSession = null;
+				}
+			}
+
+			else if (request.equals("/auth/login")) { // 로그인
 
 				System.out.print("아이디 : ");
 				String userLoginId = sc.next();
@@ -105,7 +111,7 @@ public class Main {
 					System.out.println("로그인이 필요한 기능입니다.");
 					continue;
 				}
-				
+
 				/* 유효성 검사 및 예외 처리 시작 */
 				String[] params = request.split("=");
 
@@ -156,12 +162,12 @@ public class Main {
 			}
 
 			else if (request.startsWith("/get/search/article")) {
-				
+
 				if (userSession == null) {
 					System.out.println("로그인이 필요한 기능입니다.");
 					continue;
 				}
-				
+
 				// \\이스케이프 를 쓰는 이유는 자바에서 물음표(?) 자체를 문자로 인식하지 않기 때문에 문자 자체를 알려주기 위함.
 				String[] path = request.split("\\?");
 				// 이렇게 자르게 되면 path 에는 [ "/get/search/article", "title=title&body=body" ] 이런식으로
@@ -245,12 +251,12 @@ public class Main {
 			// equals 로 하면 동적으로 변하는 게시글 번호값을 가져올 수 없음.
 			// 그래서 contains 아니면 startsWith 메서드를 써야 함.
 			else if (request.startsWith("/get/article?articleId=")) {
-				
+
 				if (userSession == null) {
 					System.out.println("로그인이 필요한 기능입니다.");
 					continue;
 				}
-				
+
 				// = 를 기준으로 쪼개기.
 				// 조각이 생기기 때문에 [배열]이 리턴되는 것
 				// ["/get/article?articleId", "특정정수값"]
@@ -316,7 +322,7 @@ public class Main {
 			}
 
 			else if (request.startsWith("/post/remove/article?articleId=")) {
-				
+
 				if (userSession == null) {
 					System.out.println("로그인이 필요한 기능입니다.");
 					continue;
@@ -363,12 +369,12 @@ public class Main {
 			}
 
 			else if (request.startsWith("/get/article?sort=")) {
-				
+
 				if (userSession == null) {
 					System.out.println("로그인이 필요한 기능입니다.");
 					continue;
 				}
-				
+
 				String[] params = request.split("=");
 
 				if (params.length < 2) {
