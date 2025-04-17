@@ -9,11 +9,15 @@ import java.util.Scanner;
 
 import util.CurrentDateTime;
 import vo.Article;
+import vo.User;
 
 public class Main {
 	public static void main(String[] args) {
 
 		Scanner sc = new Scanner(System.in);
+
+		// 유저 목록 저장소
+		List<User> userList = new ArrayList<User>();
 
 		// 게시글 목록 저장소
 		List<Article> articleList = new ArrayList<Article>();
@@ -26,7 +30,35 @@ public class Main {
 
 			String request = sc.next();
 
-			if (request.startsWith("/post/update/article?articleId=")) { // 게시글 수정
+			/**************** 유저 ****************/
+			if (request.equals("/post/user")) { // 회원가입
+
+				System.out.print("사용할 아이디 : ");
+				String userLoginId = sc.next();
+
+				System.out.print("사용할 비밀번호 : ");
+				String userLoginPw = sc.next();
+				
+				System.out.print("비밀번호 확인 : ");
+				String userLoginPwConfirm = sc.next();
+
+				System.out.print("사용자 이름 : ");
+				String userName = sc.next();
+
+				User user = new User();
+
+				user.setUserLoginId(userLoginId);
+				user.setUserLoginPw(userLoginPw);
+				user.setUserName(userName);
+				user.setRegDate(CurrentDateTime.now());
+
+				userList.add(user);
+
+				System.out.println("회원가입이 완료 되었습니다.");
+			}
+
+			/**************** 게시글 ****************/
+			else if (request.startsWith("/post/update/article?articleId=")) { // 게시글 수정
 
 				/* 유효성 검사 및 예외 처리 시작 */
 				String[] params = request.split("=");
@@ -140,7 +172,7 @@ public class Main {
 						}
 					}
 				}
-				
+
 //				버전 2
 //				for (Article article : articleList) {
 //				    boolean titleMatch = (title == null) || article.getTitle().contains(title);
@@ -155,7 +187,7 @@ public class Main {
 //				        findByArticles.add(article);
 //				    }
 //				}
-				
+
 //				버전 3 
 //				for (Article article : articleList) {
 //				    // 둘 다 null이면 건너뛰기 (아무 조건도 없는 경우)
@@ -170,7 +202,7 @@ public class Main {
 //				    // 여기까지 왔다면 모든 조건을 만족
 //				    findByArticles.add(article);
 //				}
-				
+
 				// 여기서 최종적으로 findByArticles 에 값이 있는지 없는지 체크
 				if (findByArticles.size() == 0) {
 					System.out.println("찾는 게시글이 존재하지 않습니다.");
