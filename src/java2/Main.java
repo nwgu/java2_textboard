@@ -38,9 +38,19 @@ public class Main {
 
 				System.out.print("사용할 비밀번호 : ");
 				String userLoginPw = sc.next();
-				
+
+				if (userLoginPw.length() < 5) {
+					System.out.println("비밀번호는 최소 4자리 이상 입력해주세요.");
+					continue;
+				}
+
 				System.out.print("비밀번호 확인 : ");
 				String userLoginPwConfirm = sc.next();
+
+				if (!userLoginPw.equals(userLoginPwConfirm)) {
+					System.out.println("비밀번호를 다시 확인해 주세요.");
+					continue;
+				}
 
 				System.out.print("사용자 이름 : ");
 				String userName = sc.next();
