@@ -311,6 +311,7 @@ public class Main {
 				} else {
 					System.out.println("====" + article.getArticleId() + "번 게시글 ====");
 					System.out.println("작성일 : " + article.getRegDate());
+					System.out.println("작성자 : " + article.getUserName());
 					System.out.println("제목 : " + article.getTitle());
 					System.out.println("내용 : " + article.getBody());
 				}
@@ -396,6 +397,7 @@ public class Main {
 
 					for (Article article : articleList) {
 						System.out.println("번호 : " + article.getArticleId());
+						System.out.println("작성자 : " + article.getUserName());
 						System.out.println("제목 : " + article.getTitle());
 						System.out.println("내용 : " + article.getBody());
 						System.out.println();
@@ -407,6 +409,7 @@ public class Main {
 
 					for (Article article : articleList) {
 						System.out.println("번호 : " + article.getArticleId());
+						System.out.println("작성자 : " + article.getUserName());
 						System.out.println("제목 : " + article.getTitle());
 						System.out.println("내용 : " + article.getBody());
 						System.out.println();
@@ -441,6 +444,8 @@ public class Main {
 				article.setRegDate(CurrentDateTime.now());
 				article.setTitle(title);
 				article.setBody(body);
+				article.setUserName(userSession.getUserName()); // 세션에서 유저 이름 꺼내오기
+				article.setUserId(userSession.getUserId()); // 세션에서 유저 번호 꺼내오기
 
 				// 게시글 목록에 게시글 저장
 				articleList.add(article);

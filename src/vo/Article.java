@@ -9,7 +9,11 @@ public class Article {
 	private String regDate;
 	private String title;
 	private String body;
-
+	
+	// 유저의 속성 추가
+	private int userId; // 유저 고유 번호 (로그인 아이디 X)
+	private String userName; // 유저 이름 
+	
 	// 위의 필드 변수가 private 이기 때문에, 값을 세팅하고 가져오려면
 	// 아래 코드처럼 getter, setter 메서드를 만들어줘야 한다.
 	// 게터세터 쉽게 만들기 -> (오른쪽 클릭 -> source -> Generate Getter and Setter 클릭 -> select all -> generate)
@@ -46,4 +50,23 @@ public class Article {
 		this.body = body;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	
+	
+	
 }
