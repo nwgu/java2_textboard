@@ -19,6 +19,10 @@ public class Main {
 		// 유저 목록 저장소
 		List<User> userList = new ArrayList<User>();
 
+		// 로그인 유저의 상태를 유지시키기 위한 변수 생성 (세션)
+		// https://nwgu.github.io/java/2025/04/05/java2/#-%EC%84%B8%EC%85%98
+		User userSession = null; // 이게 null 이면 로그아웃 상태
+
 		// 게시글 목록 저장소
 		List<Article> articleList = new ArrayList<Article>();
 
@@ -52,6 +56,7 @@ public class Main {
 					System.out.println("회원정보가 일치하지 않습니다.");
 				} else {
 					// 로그인 완료
+					userSession = findByUser;
 					System.out.println("로그인이 완료 되었습니다. " + findByUser.getUserName() + "님 안녕하세요~!");
 				}
 
