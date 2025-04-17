@@ -21,6 +21,7 @@ public class Main {
 
 		// 게시글 목록 저장소
 		List<Article> articleList = new ArrayList<Article>();
+
 		int articleLastId = 0;
 
 		System.out.println("텍스트 게시판 시작");
@@ -31,7 +32,32 @@ public class Main {
 			String request = sc.next();
 
 			/**************** 유저 ****************/
-			if (request.equals("/post/user")) { // 회원가입
+			if (request.equals("/auth/login")) { // 로그인
+
+				System.out.print("아이디 : ");
+				String userLoginId = sc.next();
+
+				System.out.print("비밀번호 : ");
+				String userLoginPw = sc.next();
+
+				User findByUser = null;
+
+				for (User user : userList) {
+					if (user.getUserLoginId().equals(userLoginId) && user.getUserLoginPw().equals(userLoginPw)) {
+						findByUser = user;
+					}
+				}
+
+				if (findByUser == null) {
+					System.out.println("회원정보가 일치하지 않습니다.");
+				} else {
+					// 로그인 완료
+					System.out.println("로그인이 완료 되었습니다. " + findByUser.getUserName() + "님 안녕하세요~!");
+				}
+
+			}
+
+			else if (request.equals("/post/user")) { // 회원가입
 
 				System.out.print("사용할 아이디 : ");
 				String userLoginId = sc.next();
