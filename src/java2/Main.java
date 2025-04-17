@@ -39,6 +39,7 @@ public class Main {
 			if (request.equals("/auth/logout")) { // 로그아웃
 				if (userSession != null) {
 					userSession = null;
+					System.out.println("로그아웃 완료");
 				}
 			}
 
